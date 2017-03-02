@@ -1,0 +1,14 @@
+{
+  "name": "Plotly-Ethernet",
+  "keywords": "logging, data, streaming, ethernet",
+  "description": "Arduino library for real-time logging and streaming data to online plotly graphs",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/plotly/arduino-api.git"
+  },
+  "include": "plotly_streaming_ethernet",
+  "examples": "examples/ethernet/*.ino",
+  "frameworks": "arduino",
+  "platforms": "atmelavr"
+}
