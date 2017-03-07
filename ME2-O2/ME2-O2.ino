@@ -74,7 +74,7 @@ const int AMP   = 121;
 const int AMP   = 201;
 #endif
  
-const float K_O2    = 23.38;
+const float K_O2    = 5.9999;
 AirQuality airqualitysensor;
 int current_quality =-1;
  

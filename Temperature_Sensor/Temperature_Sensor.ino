@@ -180,7 +180,7 @@ void loop(void) {
     else if (cfg == 0x40) raw2 = raw2 << 1; // 11 bit res, 375 ms
     // default is 12 bit resolution, 750 ms conversion time
   }
-  celsiusA = ((float)(raw2 / 16.0) - 4070);
+  celsiusA = ((float)(raw2 / 16.0) - 4075);
   fahrenheitA = celsiusA * 1.8 + 32.0;
   Serial.print("  Temperature 2 = ");
   Serial.print(celsiusA);
