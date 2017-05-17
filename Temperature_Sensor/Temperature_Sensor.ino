@@ -1,6 +1,6 @@
 #include <OneWire.h>
-OneWire  ad(5);  // on pin 10
-OneWire  ds(3); 
+OneWire  ad(2);  // on pin 10
+OneWire ds(7); 
 
 void setup(void) {
   Serial.begin(9600);
@@ -24,12 +24,12 @@ void loop(void) {
   
   //Serial.print("ROM =");
   for( i = 0; i < 8; i++) {
-    Serial.write(' ');
+    //Serial.write(' ');
     //Serial.print(addr[i], HEX);
   }
 
   if (OneWire::crc8(addr, 7) != addr[7]) {
-      //Serial.println("CRC is not valid!");
+      Serial.println("CRC is not valid!");
       return;
   }
   //Serial.println();
@@ -37,7 +37,7 @@ void loop(void) {
   // the first ROM byte indicates which chip
   switch (addr[0]) {
     case 0x10:
-      //Serial.println("  Chip = ad18S20");  // or old ad1820
+      Serial.println("  Chip = ad18S20");  // or old ad1820
       type_s = 1;
       break;
     case 0x28:
@@ -45,11 +45,11 @@ void loop(void) {
       type_s = 0;
       break;
     case 0x22:
-      //Serial.println("  Chip = ad1822");
+      Serial.println("  Chip = ad1822");
       type_s = 0;
       break;
     default:
-      //Serial.println("Device is not a ad18x20 family device.");
+      Serial.println("Device is not a ad18x20 family device.");
       return;
   } 
 
@@ -57,7 +57,7 @@ void loop(void) {
   ad.select(addr);
   ad.write(0x44,1);         // start conversion, with parasite power on at the end
   
-  delay(100);     // maybe 750ms is enough, maybe not
+  delay(1000);     // maybe 750ms is enough, maybe not
   // we might do a ad.depower() here, but the reset will take care of it.
   
   present = ad.reset();
@@ -66,15 +66,15 @@ void loop(void) {
 
   //Serial.print("  Data = ");
   //Serial.print(present,HEX);
-  Serial.print(" ");
+  //Serial.print(" ");
   for ( i = 0; i < 9; i++) {           // we need 9 bytes
     data[i] = ad.read();
     //Serial.print(data[i], HEX);
-    Serial.print(" ");
+    //Serial.print(" ");
   }
   //Serial.print(" CRC=");
   //Serial.print(OneWire::crc8(data, 8), HEX);
-  Serial.println();
+  //Serial.println();
 
   // convert the data to actual temperature
 
@@ -92,13 +92,15 @@ void loop(void) {
     else if (cfg == 0x40) raw = raw << 1; // 11 bit res, 375 ms
     // default is 12 bit resolution, 750 ms conversion time
   }
-  celsiusW = (float)raw / 16.0;
+  //
+  celsiusW = (float)raw / 16.0 * 2.09;
   fahrenheitW = celsiusW * 1.8 + 32.0;
-  Serial.print("  Temperature 1 = ");
+  Serial.println("Sensor 1");
   Serial.print(celsiusW);
-  Serial.print(" Celsius, ");
+  Serial.println(" Celsius");
   Serial.print(fahrenheitW);
   Serial.println(" Fahrenheit");
+  Serial.println();
   //==============================================
   float celsiusA, fahrenheitA;
   
@@ -112,7 +114,7 @@ void loop(void) {
   //check serial.write
   //Serial.print("ROM =");
   for( i = 0; i < 8; i++) {
-    Serial.write(' ');
+    //Serial.write(' ');
     //Serial.print(addr[i], HEX);
   }
 
@@ -125,7 +127,7 @@ void loop(void) {
   // the first ROM byte indicates which chip
   switch (addr[0]) {
     case 0x10:
-      //Serial.println("  Chip = DS18S20");  // or old DS1820
+      Serial.println("  Chip = DS18S20");  // or old DS1820
       type_s = 1;
       break;
     case 0x28:
@@ -133,11 +135,11 @@ void loop(void) {
       type_s = 0;
       break;
     case 0x22:
-      //Serial.println("  Chip = DS1822");
+      Serial.println("  Chip = DS1822");
       type_s = 0;
       break;
     default:
-      //Serial.println("Device is not a DS18x20 family device.");
+      Serial.println("Device is not a DS18x20 family device.");
       return;
   } 
 
@@ -145,7 +147,7 @@ void loop(void) {
   ds.select(addr);
   ds.write(0x44,1);         // start conversion, with parasite power on at the end
   
-  delay(100);     // maybe 750ms is enough, maybe not
+  delay(1000);     // maybe 750ms is enough, maybe not
   // we might do a ds.depower() here, but the reset will take care of it.
   
   present = ds.reset();
@@ -158,11 +160,11 @@ void loop(void) {
   for ( i = 0; i < 9; i++) {           // we need 9 bytes
     data[i] = ds.read();
     //Serial.print(data[i], HEX);
-    Serial.print(" ");
+    //Serial.print(" ");
   }
   //Serial.print(" CRC=");
   //Serial.print(OneWire::crc8(data, 8), HEX);
-  Serial.println();
+  //Serial.println();
 
   // convert the data to actual temperature
 
@@ -180,11 +182,12 @@ void loop(void) {
     else if (cfg == 0x40) raw2 = raw2 << 1; // 11 bit res, 375 ms
     // default is 12 bit resolution, 750 ms conversion time
   }
-  celsiusA = ((float)(raw2 / 16.0) - 4075);
+  celsiusA = (float)raw2 / 16.0;
   fahrenheitA = celsiusA * 1.8 + 32.0;
-  Serial.print("  Temperature 2 = ");
+  Serial.println("Sensor 2");
   Serial.print(celsiusA);
-  Serial.print(" Celsius, ");
+  Serial.println(" Celsius");
   Serial.print(fahrenheitA);
   Serial.println(" Fahrenheit");
+  Serial.println();
 }

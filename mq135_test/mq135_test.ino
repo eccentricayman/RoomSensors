@@ -6,9 +6,13 @@ void setup(){
 }
 void loop(){
   float rzero = gasSensor.getRZero();
-  Serial.println(rzero);
+  Serial.print("gas: ");
+  Serial.print(rzero);
+  Serial.println("");
   float ppm = gasSensor.getPPM();
-  Serial.println(ppm);
-  delay(3000);
+  Serial.print("pressure: ");
+  Serial.print(ppm);
+  Serial.println(" ppm");
+  delay(1000);
 }
 
