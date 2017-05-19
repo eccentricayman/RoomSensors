@@ -1,23 +1,29 @@
 import processing.serial.*;
+import controlP5.*;
 
-Serial myPort;  // Create object from Serial class
-String val;     // Data received from the serial port
+ControlP5 mainController;
+PFont avenirFont;
+avenirFont = loadFont("Avenir-Light-18.vlw");
+textFont(avenirFont);
 
-void setup()
-{
-  // On Windows machines, this generally opens COM1.
-  // Open whatever port is the one you're using.
-  String portName = Serial.list()[2]; //change the 0 to a 1 or 2 etc. to match your port
-  //print portname to see if it matches arduino and that we have the right one
-  println(portName);
-  myPort = new Serial(this, portName, 9600);
+fill(255);
+text("Working Text", 300, 300);
+
+void setup() {
+  size(800, 600);  
+  noStroke();
+  mainController = new ControlP5(this);
+  mainController.addButton("temperatureSensors").setPosition(150, 300).setSize(100, 50).setLabel("Temperature Sensors");
+  mainController.addButton("lightLevel").setPosition(550, 300).setSize(100, 50).setLabel("Light Level");
+  mainController.addButton("oxygenLevel").setPosition(150, 400).setSize(100, 50).setLabel("Oxygen Level");
+  mainController.addButton("airQuality").setPosition(550, 400).setSize(100, 50).setLabel("Air Quality");
+  mainController.addButton("gasSensors").setPosition(350, 500).setSize(100, 50).setLabel("Gas Sensors");
 }
 
-void draw()
-{
-  if ( myPort.available() > 0) 
-  {  // If data is available,
-  val = myPort.readStringUntil('\n');         // read it and store it in val
-  } 
-println(val); //print it out in the console
+void draw() {
+ 
+}
+
+public void Temperature() {
+  background(255);
 }
