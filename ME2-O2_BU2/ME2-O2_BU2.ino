@@ -13,8 +13,8 @@
 #include"Arduino.h"
 #include "MQ135.h"
 #include <OneWire.h>
-OneWire  ds(3);  //Black Tape Air Sensor
-OneWire  ad(5);   //Yellow Tape Water Sensor
+OneWire  ds(2);  //Black Tape Air Sensor
+OneWire  ad(7);   //Yellow Tape Water Sensor
 MQ135 gasSensor = MQ135(4);
 
 /************************Hardware Related Macros************************************/
@@ -84,18 +84,18 @@ int current_quality = -1;
 void setup()
 {
   Serial.begin(9600);         //Start the Serial connection
-  Serial.println("CLEARDATA");
-  Serial.println("LABEL, Time, Time Since Start, Date, Temperature of Air in Celsius, Temperature of Air in Fahrenheit, Temperature of Water in Celsius, Temperature of Water in Fahrenheit, Percent O2 Concentration, CO2 ppm, Illuminance, LPG, CO, Smoke");
-  Serial.println("RESETTIMER");
+  //Serial.println("CLEARDATA");
+  //Serial.println("LABEL, Time, Time Since Start, Date, Temperature of Air in Celsius, Temperature of Air in Fahrenheit, Temperature of Water in Celsius, Temperature of Water in Fahrenheit, Percent O2 Concentration, CO2 ppm, Illuminance, LPG, CO, Smoke");
+  //Serial.println("RESETTIMER");
   airqualitysensor.init(14);
-  Serial.print("Calibrating...\n");
+  //Serial.print("Calibrating...\n");
   Ro = MQCalibration(MQ_PIN);                       //Calibrating the sensor. Please make sure the sensor is in clean air
   //when you perform the calibration
-  Serial.print("Calibration is done...\n");
-  Serial.print("Ro=");
-  Serial.print(Ro);
-  Serial.print("kohm");
-  Serial.print("\n");
+  //Serial.print("Calibration is done...\n");
+  //Serial.print("Ro=");
+  //Serial.print(Ro);
+  //Serial.print("kohm");
+  //Serial.print("\n");
 }
 
 void loop()
@@ -128,26 +128,26 @@ void loop()
     return;
   }
 
-  Serial.print("ROM =");
+  //Serial.print("ROM =");
   for ( i = 0; i < 8; i++) {
-    Serial.write(' ');
-    Serial.print(addr[i], HEX);
+    //Serial.write(' ');
+    //Serial.print(addr[i], HEX);
   }
 
   if (OneWire::crc8(addr, 7) != addr[7]) {
     Serial.println("CRC is not valid!");
     return;
   }
-  Serial.println();
+  //Serial.println();
 
   // the first ROM byte indicates which chip
   switch (addr[0]) {
     case 0x10:
-      Serial.println("  Chip = ad18S20");  // or old ad1820
+      //Serial.println("  Chip = ad18S20");  // or old ad1820
       type_s = 1;
       break;
     case 0x28:
-      Serial.println("  Chip = ad18B20");
+      //Serial.println("  Chip = ad18B20");
       type_s = 0;
       break;
     case 0x22:
@@ -170,17 +170,17 @@ void loop()
   ad.select(addr);
   ad.write(0xBE);         // Read Scratchpad
 
-  Serial.print("  Data = ");
-  Serial.print(present, HEX);
-  Serial.print(" ");
+  //Serial.print("  Data = ");
+  //Serial.print(present, HEX);
+  //Serial.print(" ");
   for ( i = 0; i < 9; i++) {           // we need 9 bytes
     data[i] = ad.read();
-    Serial.print(data[i], HEX);
-    Serial.print(" ");
+    //Serial.print(data[i], HEX);
+    //Serial.print(" ");
   }
-  Serial.print(" CRC=");
-  Serial.print(OneWire::crc8(data, 8), HEX);
-  Serial.println();
+  //Serial.print(" CRC=");
+  //Serial.print(OneWire::crc8(data, 8), HEX);
+  //Serial.println();
 
   // convert the data to actual temperature
 
@@ -200,11 +200,11 @@ void loop()
   }
   celsiusW = (float)raw / 16.0;
   fahrenheitW = celsiusW * 1.8 + 32.0;
-  Serial.print("  Temperature = ");
-  Serial.print(celsiusW);
-  Serial.print(" Celsius, ");
-  Serial.print(fahrenheitW);
-  Serial.println(" Fahrenheit");
+  //Serial.print("  Temperature = ");
+  //Serial.print(celsiusW);
+  //Serial.print(" Celsius, ");
+  //Serial.print(fahrenheitW);
+  //Serial.println(" Fahrenheit");
   //==============================================
   float celsiusA, fahrenheitA;
 
@@ -218,15 +218,15 @@ void loop()
   //check serial.write
   //Serial.print("ROM =");
   for ( i = 0; i < 8; i++) {
-    Serial.write(' ');
-    Serial.print(addr[i], HEX);
+    //Serial.write(' ');
+    //Serial.print(addr[i], HEX);
   }
 
   if (OneWire::crc8(addr, 7) != addr[7]) {
     Serial.println("CRC is not valid!");
     return;
   }
-  Serial.println();
+  //Serial.println();
 
   // the first ROM byte indicates which chip
   switch (addr[0]) {
@@ -263,12 +263,12 @@ void loop()
   //Serial.print(" ");
   for ( i = 0; i < 9; i++) {           // we need 9 bytes
     data[i] = ds.read();
-    Serial.print(data[i], HEX);
-    Serial.print(" ");
+    //Serial.print(data[i], HEX);
+    //Serial.print(" ");
   }
-  Serial.print(" CRC=");
-  Serial.print(OneWire::crc8(data, 8), HEX);
-  Serial.println();
+  //Serial.print(" CRC=");
+  //Serial.print(OneWire::crc8(data, 8), HEX);
+  //Serial.println();
 
   // convert the data to actual temperature
 
@@ -288,11 +288,11 @@ void loop()
   }
   celsiusA = (float)raw2 / 16.0;
   fahrenheitA = celsiusA * 1.8 + 32.0;
-  Serial.print("  Temperature = ");
-  Serial.print(celsiusA);
-  Serial.print(" Celsius, ");
-  Serial.print(fahrenheitA);
-  Serial.println(" Fahrenheit");
+  //Serial.print("  Temperature = ");
+  //Serial.print(celsiusA);
+  //Serial.print(" Celsius, ");
+  //Serial.print(fahrenheitA);
+  //Serial.println(" Fahrenheit");
  
 /*======================================================================================
  * 
@@ -309,31 +309,39 @@ void loop()
  * 
  *================================================================================*/
 
-  Serial.print("DATA,TIME,TIMER,");
-  Serial.print("DATE,");
+  //Serial.print("DATA,TIME,TIMER,");
+  //Serial.print("DATE,");
   delay(50000);
-  Serial.print(celsiusA);
+  //sensor 1
+  Serial.println(celsiusA);
   Serial.print(",");
-  Serial.print(fahrenheitA);
+  Serial.println(fahrenheitA);
   Serial.print(",");
+  //sensor 2
   Serial.print(celsiusW);
   Serial.print(",");
   Serial.print(fahrenheitW);
   Serial.print(",");
+  //oxygen
   Serial.print(Value_O2, 1);
   Serial.print(",");
+  //ppm
   Serial.print(ppmMQ135);
   Serial.print(",");
+  //light sensor
   Serial.print(analogRead(light));
   Serial.print(",");
+  //
   Serial.print(MQGetGasPercentage(MQRead(MQ_PIN) / Ro, GAS_LPG) );
   Serial.print(",");
+  //carbon diox
   Serial.print(MQGetGasPercentage(MQRead(MQ_PIN) / Ro, GAS_CO) );
   Serial.print(",");
+  //smoke
   Serial.println(MQGetGasPercentage(MQRead(MQ_PIN) / Ro, GAS_SMOKE) );
-  Serial.println();
-  Serial.println();
-
+  //Serial.println();
+  //Serial.println();
+  Serial.println("%");
   delay(5000);
 }
 

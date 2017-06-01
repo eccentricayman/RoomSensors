@@ -57,7 +57,7 @@ void loop(void) {
   ad.select(addr);
   ad.write(0x44,1);         // start conversion, with parasite power on at the end
   
-  delay(1000);     // maybe 750ms is enough, maybe not
+  delay(500);     // maybe 750ms is enough, maybe not
   // we might do a ad.depower() here, but the reset will take care of it.
   
   present = ad.reset();
@@ -95,12 +95,14 @@ void loop(void) {
   //
   celsiusW = (float)raw / 16.0 * 2.09;
   fahrenheitW = celsiusW * 1.8 + 32.0;
-  Serial.println("Sensor 1");
-  Serial.print(celsiusW);
-  Serial.println(" Celsius");
-  Serial.print(fahrenheitW);
-  Serial.println(" Fahrenheit");
+  //Serial.println("Sensor 1");
+  Serial.println(celsiusW);
   Serial.println();
+  //Serial.println(" Celsius");
+  Serial.println(fahrenheitW);
+  Serial.println();
+  //Serial.println(" Fahrenheit");
+  //Serial.println();
   //==============================================
   float celsiusA, fahrenheitA;
   
@@ -147,7 +149,7 @@ void loop(void) {
   ds.select(addr);
   ds.write(0x44,1);         // start conversion, with parasite power on at the end
   
-  delay(1000);     // maybe 750ms is enough, maybe not
+  delay(5000);     // maybe 750ms is enough, maybe not
   // we might do a ds.depower() here, but the reset will take care of it.
   
   present = ds.reset();
@@ -184,10 +186,12 @@ void loop(void) {
   }
   celsiusA = (float)raw2 / 16.0;
   fahrenheitA = celsiusA * 1.8 + 32.0;
-  Serial.println("Sensor 2");
-  Serial.print(celsiusA);
-  Serial.println(" Celsius");
-  Serial.print(fahrenheitA);
-  Serial.println(" Fahrenheit");
+  //Serial.println("Sensor 2");
+  Serial.println(celsiusA);
   Serial.println();
+  //Serial.println(" Celsius");
+  Serial.println(fahrenheitA);
+  Serial.println();
+  //Serial.println(" Fahrenheit");
+  //Serial.println();
 }
