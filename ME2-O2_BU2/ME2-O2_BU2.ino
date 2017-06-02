@@ -53,7 +53,7 @@ float           Ro           =  10;                 //Ro is initialized to 10 ki
 
 
 #define Version     10          // version, 1.0 or 1.1, which depands on your board you use as it is
-const int pinO2 =   A0;       // Connect Grove - Gas Sensor(O2) to A0
+const int pinO2 =   A2;       // Connect Grove - Gas Sensor(O2) to A0
 const int airQ =    A1;
 const int MQ7   =   A3;
 const int light =   A5;
@@ -121,8 +121,8 @@ void loop()
   float celsiusW, fahrenheitW;
 
   if ( !ad.search(addr)) {
-    Serial.println("No more addresses.");
-    Serial.println();
+    //Serial.println("No more addresses.");
+    //Serial.println();
     ad.reset_search();
     delay(250);
     return;
@@ -135,7 +135,7 @@ void loop()
   }
 
   if (OneWire::crc8(addr, 7) != addr[7]) {
-    Serial.println("CRC is not valid!");
+    //Serial.println("CRC is not valid!");
     return;
   }
   //Serial.println();
@@ -151,11 +151,11 @@ void loop()
       type_s = 0;
       break;
     case 0x22:
-      Serial.println("  Chip = ad1822");
+      //Serial.println("  Chip = ad1822");
       type_s = 0;
       break;
     default:
-      Serial.println("Device is not a ad18x20 family device.");
+      //Serial.println("Device is not a ad18x20 family device.");
       return;
   }
 
@@ -223,7 +223,7 @@ void loop()
   }
 
   if (OneWire::crc8(addr, 7) != addr[7]) {
-    Serial.println("CRC is not valid!");
+    //Serial.println("CRC is not valid!");
     return;
   }
   //Serial.println();
@@ -311,11 +311,11 @@ void loop()
 
   //Serial.print("DATA,TIME,TIMER,");
   //Serial.print("DATE,");
-  delay(50000);
+  delay(500);
   //sensor 1
-  Serial.println(celsiusA);
+  Serial.print(celsiusA);
   Serial.print(",");
-  Serial.println(fahrenheitA);
+  Serial.print(fahrenheitA);
   Serial.print(",");
   //sensor 2
   Serial.print(celsiusW);
@@ -338,10 +338,11 @@ void loop()
   Serial.print(MQGetGasPercentage(MQRead(MQ_PIN) / Ro, GAS_CO) );
   Serial.print(",");
   //smoke
-  Serial.println(MQGetGasPercentage(MQRead(MQ_PIN) / Ro, GAS_SMOKE) );
+  Serial.print(MQGetGasPercentage(MQRead(MQ_PIN) / Ro, GAS_SMOKE) );
   //Serial.println();
   //Serial.println();
-  Serial.println("%");
+  Serial.println("\n");
+  Serial.flush();
   delay(5000);
 }
 

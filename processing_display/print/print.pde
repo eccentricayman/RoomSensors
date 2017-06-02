@@ -30,17 +30,15 @@ void setup() {
 
 void draw() {
   background(255);
-  if ( myPort.available() > 0) {  // If data is available,
-    val = myPort.readStringUntil('%');
-  } 
-  println(val); //print it out in the console
-  if (val != null) {
-    text("Sensor 1", 350, 100);
-    text(val + "Celsius", 350, 200);
-    //text(valueArray[1] + "Fahrenheit", 350, 300);
-    //text(val, 100, 100);
-    print(val);
-    fill(0);
+  while (myPort.available() > 0) {
+    String inBuffer = myPort.readString();   
+    if (inBuffer != null) {
+      if (inBuffer.contains(",") || inBuffer.contains(":")) {
+      fill(0);
+      text(inBuffer, 100, 100);
+      println(inBuffer);
+      }
+    }
   }
 }
 

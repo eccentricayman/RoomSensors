@@ -45,12 +45,12 @@ void AirQuality::init(int pin)
     pinMode(_pin,INPUT);
     unsigned char i=0;
     delay(3000);
-    Serial.println("sys_starting...");
+    //Serial.println("sys_starting...");
     delay(20000);//200000
     init_voltage=analogRead(_pin);
 
-    Serial.println("The init voltage is ...");
-    Serial.println(init_voltage);
+    //Serial.println("The init voltage is ...");
+    //Serial.println(init_voltage);
     while(init_voltage)
     {
         if(init_voltage<798 && init_voltage>10)// the init voltage is ok
@@ -58,14 +58,14 @@ void AirQuality::init(int pin)
             first_vol=analogRead(A0);//initialize first value
             last_vol=first_vol;
             vol_standard=last_vol;
-            Serial.println("Sensor ready.");
+            //Serial.println("Sensor ready.");
             error=false;;
             break;
         }
         else if(init_voltage>798||init_voltage<=10)
         {	
             i++;
-            Serial.println("waitting sensor init..(it takes 60 seconds to init)");
+            //Serial.println("waitting sensor init..(it takes 60 seconds to init)");
             delay(60000);//60000
             init_voltage=analogRead(A0);
             if(i==5)
@@ -82,7 +82,7 @@ void AirQuality::init(int pin)
     TCCR1A=0;//normal model
     TCCR1B=0x02;//set clock as 8*(1/16M)
     TIMSK1=0x01;//enable overflow interrupt
-    Serial.println("Test begin...");
+    //Serial.println("Test begin...");
     sei();
 }
 int AirQuality::slope(void)
